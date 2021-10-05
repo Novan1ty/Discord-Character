@@ -1,0 +1,31 @@
+{
+  "name": "discord-character",
+  "version": "1.0.8",
+  "description": "discord-character is a basic project that allows you to create your own chatbots for Discord.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "discord",
+    "discord-chatbot",
+    "chatbot",
+    "chat",
+    "discord-chat",
+    "bot",
+    "discord-character",
+    "character",
+    "oc",
+    "discord-oc"
+  ],
+  "author": "Novanity",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Novan1ty/Discord-Character.git"
+  },
+  "dependencies": {
+    "discord.js": "^13.1.0",
+    "simplified-javascript": "^1.0.13"
+  }
+}
