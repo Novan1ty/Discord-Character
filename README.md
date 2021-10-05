@@ -1,16 +1,16 @@
 # Discord Character
 
 ## Description
-`discord-character` is a basic project that allows you to **create your own chatbots for Discord.**
+`discord-character` is a basic project that allows you to **create your own Discord Chatbots.**
 
-## Requirement
+## Requirements
 **Node.js 16.6.0 or newer is required.**
 - [`discord.js`](https://discord.js.org/#/)
 
 ## Features
 - Easy-to-use
 - Beginner-Friendly
-- Uses Discord Webhooks
+- Discord Webhooks
 
 - - -
 
@@ -21,6 +21,7 @@ There are 2 Character Classes you can use:
 
 ### Character_Set
 Is an already set up Character Class; Already built-in responses; AI.
+
 
 ### Character
 A completely empty Character Class.
@@ -95,7 +96,7 @@ return await Rune.Chat()
 - - -
 
 ## Miscellaneous
-There is also a function if you want **to open JSON files**; access your responses.
+There is also a function if you want to **open JSON files**; access your responses.
 
 **This uses the [`fs`](https://nodejs.org/api/fs.html) module.**
 ```js
