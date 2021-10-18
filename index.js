@@ -7,7 +7,7 @@ const Simple = require('simplified-javascript')
 /*
 Character Set ~ 10/2/21; October 2, 2021
 
-Finished: 10/3/21; October 3, 2021
+Finished on: 10/3/21; October 3, 2021
 */
 
 /**
@@ -590,7 +590,7 @@ class Character_Set {
      * Sets the Channel ID of the Character, then
      * returns the Channel that is set for the Character.
      * @param {String} Path 
-     * @returns {object}
+     * @returns {void}
      */
     Get_Channel(Path) {
         const Characters_Guilds = Open(Path)
@@ -599,7 +599,12 @@ class Character_Set {
             return Character.Guild_ID === parseInt(this.Activator.guild.id) &&
             Character.Channel_ID === parseInt(this.Activator.channel.id)
         })
-        this.Channel_ID = Characters_Channel.Channel_ID || Characters_Channel.Channel_ID
+        
+        this.Channel_ID =
+        !Characters_Channel ?
+            undefined
+        :
+            Characters_Channel.Channel_ID || Characters_Channel.Channel_ID
         
         return Characters_Channel
     }
@@ -1048,7 +1053,7 @@ class Character_Set {
 /*
 Character ~ 10/4/21; October 4, 2021
 
-Finished: 10/4/21; October 4, 2021
+Finished on: 10/4/21; October 4, 2021
 */
 
 /**
@@ -1254,7 +1259,7 @@ class Character {
      * Sets the Channel ID of the Character, then
      * returns the Channel that is set for the Character.
      * @param {String} Path 
-     * @returns {object}
+     * @returns {void}
      */
     Get_Channel(Path) {
         const Characters_Guilds = Open(Path)
@@ -1263,7 +1268,12 @@ class Character {
             return Character.Guild_ID === parseInt(this.Activator.guild.id) &&
             Character.Channel_ID === parseInt(this.Activator.channel.id)
         })
-        this.Channel_ID = Characters_Channel.Channel_ID || Characters_Channel.Channel_ID
+        
+        this.Channel_ID =
+        !Characters_Channel ?
+            undefined
+        :
+            Characters_Channel.Channel_ID || Characters_Channel.Channel_ID
         
         return Characters_Channel
     }
@@ -1382,7 +1392,7 @@ class Character {
 /**
  * Opens a JSON file.
  * @param {String} Path 
- * @returns {Array | object | JSON}
+ * @returns {Array | object}
  * 
  * // Path Example
  * 
@@ -1390,6 +1400,7 @@ class Character {
  */
 function Open(Path) {
     const Has = new ReferenceError('"Path" has to be a valid path to a JSON file.')
+    
     if (!Path) throw Has
     if (!Path.endsWith('.json')) throw Has
     
@@ -1403,5 +1414,24 @@ function Open(Path) {
     const Data = JSON.parse(File.toString())
     return Data
 }
+/**
+ * Saves the given data into the JSON file.
+ * @param {Array | object} Data
+ * @param {String} Path
+ * @returns {void}
+ */
+function Save(Data, Path) {
+    const Has = new ReferenceError('"Path" has to be a valid path to a JSON file.')
 
-module.exports = { Character_Set, Character, Open }
+    if (!Data) return new ReferenceError('You need to provide a data.')
+    if (!Path) throw Has
+    if (!Path.endsWith('.json')) throw Has
+
+    const Saving = JSON.stringify(Data, null, 4)
+    fs.writeFileSync(Path, Saving)
+
+    const Saved = JSON.stringify(Data, null, 4)
+    fs.writeFileSync(Path, Saved)
+}
+
+module.exports = { Character_Set, Character, Open, Save }

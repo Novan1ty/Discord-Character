@@ -3,7 +3,7 @@ Copy and Paste this if running this is necessary.
 ~ 10/4/21; October 4, 2021
 */
 
-const { Character_Set, Character } = require('../Character-Class.js')
+const { Character_Set, Character } = require('discord-character')
 
 module.exports = client => {
     client.on('messageCreate', async message => {
