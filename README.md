@@ -14,19 +14,16 @@
 
 - - -
 
-## Classes
-There are 2 Character Classes you can use:
-- `Character_Set`
-- `Character`
+## Character
+`Character` has a built-in AI or events, you can
+also add custom responses to certain words using
+Arrays of String(s).
 
-### Character_Set
-Is an already set up Character Class; Already built-in responses; AI.
-![1](./Assets/1.jpg)
-
-### Character
-A completely empty Character Class.
-You can manually add custom responses to
-specific words using Arrays of String(s).
+### Methods
+- `Chat()`
+- `Set()`
+- `Add()`
+- `Get_Events()`
 
 - - -
 
@@ -37,7 +34,7 @@ Path has to be an empty Array.
 ![3](./Assets/3.jpg)
 
 ```js
-const { Character_Set, Character } = require('discord-character')
+const { Character } = require('discord-character')
 
 client.on('messageCreate', async message => {
     if (message.author.bot) return;
@@ -47,51 +44,27 @@ client.on('messageCreate', async message => {
     
     const Path = 'The Path to your JSON file as a storage.'
 
-    // The rest of the code goes here...
+    const Rune = new Character(client, message, Name, Runes_Avatar, Path)
+
+    const Default = [
+        'What?', 'Seriously.', 'Shut up.',
+        'No?', 'Yeah?', 'Hm, no.', 'What.',
+        'Uhhh', 'Idk.'
+    ]
+    Rune.Set('Default', Default)
+
+    const Mitch = [ 'Mitch' ]
+    const Mitch_Responses = [
+        'Oh no-', 'Oh no.', 'Uh oh-', 'Uh oh.'
+    ]
+
+    const A = [ 'A', 'EA' ]
+    const A_Responses = [ 'A.', 'a.', 'EA.', 'ea.' ]
+    Rune.Add(Mitch, Mitch_Responses, 2)
+    Rune.Add(A, A_Responses, 1)
+
+    return await Rune.Chat()
 })
-```
-
-### Character_Set
-```js
-const Rune = new Character_Set(client, message, Name, Runes_Avatar, Path)
-
-const Main_Responses = [
-    'What?', 'Seriously.', 'Shut up.',
-    'No?', 'Yeah?', 'Hm, no.', 'What.',
-    'Uhhh', 'Idk.'
-]
-const Status_Responses = [
-    'I\'m doing good, how about you? ' + message.author.username  + '.',
-]
-
-Rune.Set_Main(Main_Responses)
-Rune.Set_Status(Status_Responses)
-
-return await Rune.Chat()
-```
-
-### Character
-```js
-const Rune = new Character(client, message, Name, Runes_Avatar, Path)
-
-const Main_Responses = [
-    'What?', 'Seriously.', 'Shut up.',
-    'No?', 'Yeah?', 'Hm, no.', 'What.',
-    'Uhhh', 'Idk.'
-]
-Rune.Set_Main(Main_Responses)
-
-const Mitch = [ 'Mitch' ]
-const Mitch_Responses = [
-    'Oh no-', 'Oh no.', 'Uh oh-', 'Uh oh.'
-]
-
-const A = [ 'A', 'EA' ]
-const A_Responses = [ 'A.', 'a.', 'EA.', 'ea.' ]
-Rune.Add_Response(Mitch, Mitch_Responses, 2)
-Rune.Add_Response(A, A_Responses, 1)
-
-return await Rune.Chat()
 ```
 
 ### Character.js
@@ -99,6 +72,8 @@ If you want a per-server chatbot(s).
 
 ```js
 module.exports = {
+    // Make sure that you modify the code.
+
     name: 'set-rune',
     description: 'Sets the channel for Rune.',
     async execute(client, message, args) {

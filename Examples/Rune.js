@@ -3,7 +3,7 @@ Copy and Paste this if running this is necessary.
 ~ 10/4/21; October 4, 2021
 */
 
-const { Character_Set, Character } = require('discord-character')
+const { Character } = require('discord-character')
 
 module.exports = client => {
     client.on('messageCreate', async message => {
@@ -14,37 +14,16 @@ module.exports = client => {
         
         const Path = './Storages/Characters/Rune.json'
         
-        // Character Set ~ 10/2/21; October 2, 2021
-        /*
-        {
-            const Rune = new Character_Set(client, message, Name, Runes_Avatar, Path)
-
-            const Main_Responses = [
-                'What?', 'Seriously.', 'Shut up.',
-                'No?', 'Yeah?', 'Hm, no.', 'What.',
-                'Uhhh', 'Idk.'
-            ]
-            const Status_Responses = [
-                'I\'m doing good, how about you? ' + message.author.username  + '.',
-            ]
-
-            Rune.Set_Main(Main_Responses)
-            Rune.Set_Status(Status_Responses)
-
-            return await Rune.Chat()
-        }
-        */
-        
         // Character ~ 10/4/21; October 4, 2021
 
         const Rune = new Character(client, message, Name, Runes_Avatar, Path)
 
-        const Main_Responses = [
+        const Default = [
             'What?', 'Seriously.', 'Shut up.',
             'No?', 'Yeah?', 'Hm, no.', 'What.',
             'Uhhh', 'Idk.'
         ]
-        Rune.Set_Main(Main_Responses)
+        Rune.Set('Default', Default)
 
         const Mitch = [ 'Mitch' ]
         const Mitch_Responses = [
@@ -53,8 +32,8 @@ module.exports = client => {
         
         const A = [ 'A', 'EA' ]
         const A_Responses = [ 'A.', 'a.', 'EA.', 'ea.' ]
-        Rune.Add_Response(Mitch, Mitch_Responses, 2)
-        Rune.Add_Response(A, A_Responses, 1)
+        Rune.Add(Mitch, Mitch_Responses, 2)
+        Rune.Add(A, A_Responses, 1)
 
         return await Rune.Chat()
     })
