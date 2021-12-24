@@ -44,7 +44,10 @@ client.on('messageCreate', async message => {
     
     const Path = 'The Path to your JSON file as a storage.'
 
-    const Rune = new Character(client, message, Name, Runes_Avatar, Path)
+    const Rune = new Character({
+        Client: client, Activator:
+        message, Name, Runes_Avatar, Path
+    })
 
     const Default = [
         'What?', 'Seriously.', 'Shut up.',

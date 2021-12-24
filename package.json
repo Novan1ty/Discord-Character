@@ -1,6 +1,6 @@
 {
     "name": "discord-character",
-    "version": "1.2.17",
+    "version": "1.2.18",
     "description": "discord-character is a basic project that allows you to create your own chatbots for Discord.",
     "main": "index.js",
     "scripts": {

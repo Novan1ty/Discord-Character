@@ -1,5 +1,7 @@
 // Rune ~ 8/31/21; August 31, 2021
 
+// Make sure that you modify the code.
+
 const Discord = require('discord.js')
 const { Open, Save } = require('discord-character')
 

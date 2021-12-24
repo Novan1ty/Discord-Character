@@ -26,7 +26,7 @@ class Character {
      * @param {String | URL} Avatar
      * @param {String} Path
      */
-    constructor(Client, Activator, Name, Avatar, Path) {
+    constructor({ Client, Activator, Name, Avatar, Path }) {
         this.Client = Client
         this.Activator = Activator
         this.Name = Name
@@ -706,7 +706,7 @@ class Character {
      * @param {String} Message 
      * @returns {void}
      */
-    async #Character_Send(Message) { // ~ 10/3/21; October 3, 2021
+    #Character_Send(Message) { // ~ 10/3/21; October 3, 2021
         const Mitch = this.#Webhook
         // console.log(Mitch)
 
@@ -719,10 +719,9 @@ class Character {
      * @returns {Boolean}
      */
     #Includes(String) {
-        if (this.Activator.content.toLowerCase().includes(
-            String.toLowerCase())
-        ) return true
-        return false
+        return this.Activator.content.toLowerCase().includes(
+            String.toLowerCase()
+        )
     }
     /**
      * Returns a random element from the given array.
@@ -752,8 +751,7 @@ class Character {
      * @returns {Boolean}
      */
     #Content_Is(String) {
-        if (this.Activator.content.toLowerCase() === String.toLowerCase()) return true
-        return false
+        return this.Activator.content.toLowerCase() === String.toLowerCase()
     }
     /**
      * @param {String} Message
@@ -761,7 +759,7 @@ class Character {
      */
     async #Content_Includes(Message) {
         Message = this.#The_Message(Message)
-        await this.#Character_Send(Message)
+        this.#Character_Send(Message)
     }
 }
 
@@ -818,14 +816,16 @@ function Save(Data, Path) {
 
 // Testings ~ 11/9/21; November 9, 2021
 
+/*
 const Rune = new Character('client', 'message', 'Rune', 'EA')
 
-// console.log(Rune.Get_Events(/* true */))
+console.log(Rune.Get_Events())
 
 Rune.Add([ 'Mitch' ], [ 'Heya' ], 1)
 // console.log(Rune.Responses)
 
 Rune.Set('Default', [ 'Heya.' ])
 // console.log(Rune.Default)
+*/
 
 module.exports = { Character, Open, Save }

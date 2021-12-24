@@ -1,0 +1,39 @@
+{
+    "Rune": {
+        "Default": [
+            "What?", "Seriously.", "Shut up.",
+            "No?", "Yeah?", "Hm, no.", "What.",
+            "Uhhh", "Idk."
+        ],
+        "Mitch": {
+            "Keys": [ "Mitch"
+            ],
+            "Res": [
+                "Oh no-", "Oh no.", "Uh oh-", "Uh oh."
+            ]
+        },
+        "A": {
+            "Keys": [ "A", "EA"
+            ],
+            "Res": [ "A.", "a.", "EA.", "ea."
+            ]
+        }
+    },
+    "Mitch": {
+        "Default": [
+            "Huh?", "W", "What?", "Wdym?",
+            "I'm pretty sure that, that is not English."
+        ],
+        "Rune": {
+            "Keys": [ "Rune" ],
+            "Res": [ "He's a generous guy.", "Yes.", ":thinking:" ]
+        },
+        "Waffle": {
+            "Keys": [ "Waffle" ],
+            "Res": [
+                "Gotta love waffle, mate.", "Give me a waffle.",
+                "You know the rules, and so do i! Hand over the waffles."
+            ]
+        }
+    }
+}
