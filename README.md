@@ -63,7 +63,7 @@ client.on('messageCreate', async message => {
     Rune.Add(Mitch, Mitch_Responses, 2)
     Rune.Add(A, A_Responses, 1)
 
-    return await Rune.Chat()
+    return Rune.Chat()
 })
 ```
 
@@ -165,3 +165,12 @@ console.log(Response)
 Responses.push( /* Add anything here. */ )
 Save(Responses)
 ```
+
+- - -
+
+## Updates
+
+### _Version 1.2.17_
+- The [`Character`](#Character) class has been improved and the structure of its code.
+- Only the necessary main methods and properties have been set as public, this means that the "used to be public" methods and properties are now fixed and set to private.
+- The `Channel_ID` property will now be set without getting an error.

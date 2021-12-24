@@ -35,6 +35,6 @@ module.exports = client => {
         Rune.Add(Mitch, Mitch_Responses, 2)
         Rune.Add(A, A_Responses, 1)
 
-        return await Rune.Chat()
+        return Rune.Chat()
     })
 }

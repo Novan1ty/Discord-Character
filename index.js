@@ -13,6 +13,9 @@ Finished on: 10/3/21; October 3, 2021
  * An already set up Character Class.
  */
 class Character {
+    #Type_1 ; #Type_2 ; #Not ; #Has ; #Channel_ID ;
+    #Webhook_Channel ; #Webhook ; #Channel
+
     /**
      * The Constructor for Character_Set.
      * 
@@ -30,11 +33,11 @@ class Character {
         this.Avatar = Avatar
         this.Path = Path
 
-        this.Type_1 = []
-        this.Type_2 = []
+        this.#Type_1 = []
+        this.#Type_2 = []
         
-        this.Not = 'This has not been set.'
-        this.Has = '"Responses" has to be an Array of String(s).'
+        this.#Not = 'This has not been set.'
+        this.#Has = '"Responses" has to be an Array of String(s).'
     }
 
     /**
@@ -43,27 +46,26 @@ class Character {
      */
     async Chat() {
         const message = this.Activator
+        await this.#Save_Channel()
 
-        this.Save_Channel()
-
-        const Channel = this.Channel
+        const Channel = this.#Channel
         if (!Channel) return;
 
-        // console.log(Channel.Channel_ID) ~ 10/3/21; October 3, 2021
+        // console.log(Channel.#Channel_ID) ~ 10/3/21; October 3, 2021
 
-        await this.Save_Webhook()
-        const Character = this.Webhook
+        await this.#Save_Webhook()
+        const Character = this.#Webhook
 
         const Character_Responses = this.Default
-        const Random_Response = this.Random(Character_Responses)
+        const Random_Response = this.#Random(Character_Responses)
 
         const Name = this.Name
         const Avatar = this.Avatar
 
         if (!Character) {
-            return await this.Create(Name, Avatar, this.Webhook_Channel)
+            return await this.#Create(Name, Avatar, this.#Webhook_Channel)
             .then(Character => {
-                this.Webhook = Character
+                this.#Webhook = Character
 
                 Character.send(Random_Response)
             })
@@ -72,28 +74,28 @@ class Character {
         const Attachment = [...message.attachments.values()]
         if (Attachment.length >= 1 && this.Attachments !== undefined) {
             const Attachment_Response = Simple.randomElement(this.Attachments)
-            return this.Character_Send(Attachment_Response)
+            return this.#Character_Send(Attachment_Response)
         }
 
         // Content Is ~ 10/4/21; October 4, 2021
         
-        for (let i = 0; i < this.Type_1.length; i++) {
-            const { Keywords, Responses } = this.Type_1[i]
+        for (let i = 0; i < this.#Type_1.length; i++) {
+            const { Keywords, Responses } = this.#Type_1[i]
 
-            const Response = this.Get_Is(Keywords, Responses)
+            const Response = this.#Get_Is(Keywords, Responses)
             if (!Response) ; else {
-                return this.Content_Includes(Response)
+                return this.#Content_Includes(Response)
             }
         }
 
         // Content Includes ~ 10/4/21; October 4, 2021
 
-        for (let i = 0; i < this.Type_2.length; i++) {
-            const { Keywords, Responses } = this.Type_2[i]
+        for (let i = 0; i < this.#Type_2.length; i++) {
+            const { Keywords, Responses } = this.#Type_2[i]
 
-            const Response = this.Get_Includes(Keywords, Responses)
+            const Response = this.#Get_Includes(Keywords, Responses)
             if (!Response) ; else {
-                return this.Content_Includes(Response)
+                return this.#Content_Includes(Response)
             }
         }
 
@@ -110,9 +112,9 @@ class Character {
                 "what's up?"
             ]
             for (let i = 0; i < Status.length; i++) {
-                if (!this.Has_Response(this.Status)) break
+                if (!this.#Has_Response(this.Status)) break
 
-                if (this.Includes(Status[i])) return this.Content_Includes(this.Status)
+                if (this.#Includes(Status[i])) return this.#Content_Includes(this.Status)
             }
     
             //-----------------------------------------------------------------------------
@@ -131,9 +133,9 @@ class Character {
                 'tell me your name',' tell me ur name',
             ]
             for (let i = 0; i < Name.length; i++) {
-                if (!this.Has_Response(this.Name)) break
+                if (!this.#Has_Response(this.Name)) break
     
-                if (this.Includes(Name[i])) return await this.Content_Includes(this.Name)
+                if (this.#Includes(Name[i])) return await this.#Content_Includes(this.Name)
             }
     
             //-----------------------------------------------------------------------------
@@ -152,9 +154,9 @@ class Character {
                 'tell me ur age'
             ]
             for (let i = 0; i < Age.length; i++) {
-                if (!this.Has_Response(this.Age)) break
+                if (!this.#Has_Response(this.Age)) break
     
-                if (this.Includes(Age[i])) return await this.Content_Includes(this.Age)
+                if (this.#Includes(Age[i])) return await this.#Content_Includes(this.Age)
             }
     
             //-----------------------------------------------------------------------------
@@ -181,9 +183,9 @@ class Character {
                 'tell me your crush', 'tell me ur crush',
             ]
             for (let i = 0; i < Characters_Info.length; i++) {
-                if (!this.Has_Response(this.Speechless)) break
+                if (!this.#Has_Response(this.Speechless)) break
     
-                if (this.Includes(Characters_Info[i])) return await this.Content_Includes(this.Speechless)
+                if (this.#Includes(Characters_Info[i])) return await this.#Content_Includes(this.Speechless)
             }
             
             //-----------------------------------------------------------------------------
@@ -202,9 +204,9 @@ class Character {
                 'wuts ur hobbies', 'wut is ur hobbies'
             ]
             for (let i = 0; i < Hobbies.length; i++) {
-                if (!this.Has_Response(this.Hobbies)) break
+                if (!this.#Has_Response(this.Hobbies)) break
     
-                if (this.Includes(Hobbies[i])) return await this.Content_Includes(this.Hobbies)
+                if (this.#Includes(Hobbies[i])) return await this.#Content_Includes(this.Hobbies)
             }
 
             //-----------------------------------------------------------------------------
@@ -238,14 +240,14 @@ class Character {
             ]
     
             for (let i = 0; i < Feeling_Good.length; i++) {
-                if (!this.Has_Response(this.Kind)) break
+                if (!this.#Has_Response(this.Kind)) break
     
-                if (this.Includes(Feeling_Good[i])) return await this.Content_Includes(this.Kind)
+                if (this.#Includes(Feeling_Good[i])) return await this.#Content_Includes(this.Kind)
             }
             for (let i = 0; i < Feeling_Bad.length; i++) {
-                if (!this.Has_Response(this.Mean)) break
+                if (!this.#Has_Response(this.Mean)) break
     
-                if (this.Includes(Feeling_Bad[i])) return await this.Content_Includes(this.Mean)
+                if (this.#Includes(Feeling_Bad[i])) return await this.#Content_Includes(this.Mean)
             }
         }
         
@@ -254,31 +256,31 @@ class Character {
         {          
             const Where = [ 'where', 'you think', 'mean' ]
             for (let i = 0; i < Where.length; i++) {
-                if (!this.Has_Response(this.Where)) break
+                if (!this.#Has_Response(this.Where)) break
     
-                if (this.Includes(Where[i])) return await this.Content_Includes(this.Where)
+                if (this.#Includes(Where[i])) return await this.#Content_Includes(this.Where)
             }
     
             //-----------------------------------------------------------------------------   
     
-            if (this.Includes('you think')) return await this.Content_Includes(this.Appearance)
+            if (this.#Includes('you think')) return await this.#Content_Includes(this.Appearance)
     
             //-----------------------------------------------------------------------------
     
             const Asking = [ 'what', 'wdym', '?', 'wut' ]
             for (let i = 0; i < Asking.length; i++) {
-                if (!this.Has_Response(this.Speechless)) break
+                if (!this.#Has_Response(this.Speechless)) break
     
-                if (this.Includes(Asking[i])) return await this.Content_Includes(this.Speechless)
+                if (this.#Includes(Asking[i])) return await this.#Content_Includes(this.Speechless)
             }
     
             //-----------------------------------------------------------------------------
     
             const Excuse_Me = [ 'pardon', 'excuse me', 'wat', 'i-' ]
             for (let i = 0; i < Excuse_Me.length; i++) {
-                if (!this.Has_Response(this.Suspicion)) break
+                if (!this.#Has_Response(this.Suspicion)) break
     
-                if (this.Includes(Excuse_Me[i])) return await this.Content_Includes(this.Suspicion)
+                if (this.#Includes(Excuse_Me[i])) return await this.#Content_Includes(this.Suspicion)
             }
     
             //----------------------------------------------------------------------------------
@@ -288,18 +290,18 @@ class Character {
                 'helpful', 'appreciate', 'thankful'
             ]
             for (let i = 0; i < Gratitude.length; i++) {
-                if (!this.Has_Response(this.Gratitude)) break
+                if (!this.#Has_Response(this.Gratitude)) break
     
-                if (this.Includes(Gratitude[i])) return await this.Content_Includes(this.Gratitude)
+                if (this.#Includes(Gratitude[i])) return await this.#Content_Includes(this.Gratitude)
             }
                 
             //-----------------------------------------------------------------------------------
             
             const Facts = [ 'know', 'wondered', 'aware', 'realize', 'knew' ]
             for (let i = 0; i < Facts.length; i++) {
-                if (!this.Has_Response(this.Info)) break
+                if (!this.#Has_Response(this.Info)) break
     
-                if (this.Includes(Facts[i])) return await this.Content_Includes(this.Info)
+                if (this.#Includes(Facts[i])) return await this.#Content_Includes(this.Info)
             }
                 
             //--------------------------------------------------------------------------------------
@@ -312,9 +314,9 @@ class Character {
                 'dono', 'not sure', 'nothing', 'none'
             ]
             for (let i = 0; i < Lying.length; i++) {
-                if (!this.Has_Response(this.Lying)) break
+                if (!this.#Has_Response(this.Lying)) break
     
-                if (this.Includes(Lying[i])) return await this.Content_Includes(this.Lying)
+                if (this.#Includes(Lying[i])) return await this.#Content_Includes(this.Lying)
             }
     
             //-----------------------------------------------------------------------------------
@@ -326,9 +328,9 @@ class Character {
                 'hurt', 'slap', 'beat'
             ]
             for (let i = 0; i < Challenging.length; i++) {
-                if (!this.Has_Response(this.Challenging)) break
+                if (!this.#Has_Response(this.Challenging)) break
     
-                if (this.Includes(Challenging[i])) return await this.Content_Includes(this.Challenging)
+                if (this.#Includes(Challenging[i])) return await this.#Content_Includes(this.Challenging)
             }
     
             //-------------------------------------------------------------------------------------
@@ -342,9 +344,9 @@ class Character {
                 'not appreciate',
             ]
             for (let i = 0; i < Insults.length; i++) {
-                if (!this.Has_Response(this.Insults)) break
+                if (!this.#Has_Response(this.Insults)) break
     
-                if (this.Includes(Insults[i])) return await this.Content_Includes(this.Insults)
+                if (this.#Includes(Insults[i])) return await this.#Content_Includes(this.Insults)
             }
     
             //-------------------------------------------------------------------------------------
@@ -353,15 +355,15 @@ class Character {
                 message.content.toLowerCase().startsWith(
                     Simple.Capitalize(this.Name)
                 )
-            ) return await this.Content_Includes(this.Mentioned)
+            ) return await this.#Content_Includes(this.Mentioned)
     
             //-------------------------------------------------------------------------------------
             
             const Covid19 = [ 'covid', 'corona', 'virus', 'coronavirus' ]     
             for (let i = 0; i < Covid19.length; i++) {
-                if (!this.Has_Response(this.Covid19)) break
+                if (!this.#Has_Response(this.Covid19)) break
     
-                if (this.Includes(Covid19[i])) return await this.Content_Includes(this.Covid19)
+                if (this.#Includes(Covid19[i])) return await this.#Content_Includes(this.Covid19)
             }
     
             //-------------------------------------------------------------------------------------
@@ -371,18 +373,18 @@ class Character {
                 'see you', 'bai'
             ]
             for (let i = 0; i < Goodbye.length; i++) {
-                if (!this.Has_Response(this.Goodbye)) break
+                if (!this.#Has_Response(this.Goodbye)) break
     
-                if (this.Includes(Goodbye[i])) return await this.Content_Includes(this.Goodbye)
+                if (this.#Includes(Goodbye[i])) return await this.#Content_Includes(this.Goodbye)
             }
     
             //-------------------------------------------------------------------------------------
     
             const Because = [ 'cause', 'cus', 'cuz' ]
             for (let i = 0; i < Because.length; i++) {
-                if (!this.Has_Response(this.Because)) break
+                if (!this.#Has_Response(this.Because)) break
     
-                if (this.Includes(Because[i])) return await this.Content_Includes(this.Because)
+                if (this.#Includes(Because[i])) return await this.#Content_Includes(this.Because)
             }
     
             //-------------------------------------------------------------------------------------
@@ -392,37 +394,37 @@ class Character {
                 'emotional', 'stressed'
             ]           
             for (let i = 0; i < Sad.length; i++) {
-                if (!this.Has_Response(this.Sad)) break
+                if (!this.#Has_Response(this.Sad)) break
     
-                if (this.Includes(Sad[i])) return await this.Content_Includes(this.Sad)
+                if (this.#Includes(Sad[i])) return await this.#Content_Includes(this.Sad)
             }
     
             //-------------------------------------------------------------------------------------
     
-            if (this.Includes('hi ' + this.Name.toLowerCase())) {
-                return await this.Content_Includes(this.Greetings)
+            if (this.#Includes('hi ' + this.Name.toLowerCase())) {
+                return await this.#Content_Includes(this.Greetings)
             }
     
             
             //-------------------------------------------------------------------------------------
     
-            if (this.Includes('not')) return await this.Content_Includes(this.Assuring)
+            if (this.#Includes('not')) return await this.#Content_Includes(this.Assuring)
     
             //-------------------------------------------------------------------------------------
     
-            if (this.Includes('good')) return await this.Content_Includes(this.Kind)
+            if (this.#Includes('good')) return await this.#Content_Includes(this.Kind)
     
             //----------------------------------------------------------------------------------
     
-            if (this.Includes('do something')) {
-                return this.Character_Send(
+            if (this.#Includes('do something')) {
+                return this.#Character_Send(
                     '[https://aidn.jp/wowa/343792416](https://www.youtube.com/watch?v=xvFZjo5PgG0)'
                 )
             }
     
             //----------------------------------------------------------------------------------
     
-            if (this.Includes('something')) return this.Content_Includes(this.Unclear)
+            if (this.#Includes('something')) return this.#Content_Includes(this.Unclear)
     
             //----------------------------------------------------------------------------------
     
@@ -436,58 +438,58 @@ class Character {
             ]
             for (let i = 0; i < Greetings.length; i++) {
                 if (
-                    this.Includes('thing') ||
-                    this.Includes('this') ||
-                    !this.Has_Response(this.Greetings)
+                    this.#Includes('thing') ||
+                    this.#Includes('this') ||
+                    !this.#Has_Response(this.Greetings)
                 ) break
     
-                if (this.Includes(Greetings[i])) {
-                    return await this.Content_Includes(this.Greetings)
+                if (this.#Includes(Greetings[i])) {
+                    return await this.#Content_Includes(this.Greetings)
                 }
             }
     
             //-------------------------------------------------------------------------------------
     
-            if (this.Content_Is('-')) return await this.Content_Includes(this.Sad)
+            if (this.#Content_Is('-')) return await this.#Content_Includes(this.Sad)
     
             //-------------------------------------------------------------------------------------
     
             const Come_On = [ 'come on', 'comeon', 'cmon' ]
             for (let i = 0; i < Come_On.length; i++) {
-                if (!this.Has_Response(this.Come_On)) break
+                if (!this.#Has_Response(this.Come_On)) break
     
-                if (this.Includes(Come_On[i])) return this.Character_Send(this.Come_On)
+                if (this.#Includes(Come_On[i])) return this.#Character_Send(this.Come_On)
             }
     
             //-------------------------------------------------------------------------------------
     
             const Really = [ 'sure', 'ok', 'okay', 'okey', 'ohk', 'finally' ]
             for (let i = 0; i < Really.length; i++) {
-                if (!this.Has_Response(this.Really)) break
+                if (!this.#Has_Response(this.Really)) break
     
-                if (this.Includes(Really[i])) return await this.Content_Includes(this.Really)
+                if (this.#Includes(Really[i])) return await this.#Content_Includes(this.Really)
             }
     
             //-------------------------------------------------------------------------------------
     
             const No = [ 'kiss', 'love', 'touch' ]
             for (let i = 0; i < No.length; i++) {
-                if (!this.Has_Response(this.Love)) break
+                if (!this.#Has_Response(this.Love)) break
     
-                if (this.Includes(No[i])) return await this.Content_Includes(this.Love)
+                if (this.#Includes(No[i])) return await this.#Content_Includes(this.Love)
             }
     
             //-------------------------------------------------------------------------------------
     
             const Unclear = [ 'ay', 'bruh', 'serious' ]
             for (let i = 0; i < Unclear.length; i++) {
-                if (!this.Has_Response(this.Unclear)) break
+                if (!this.#Has_Response(this.Unclear)) break
     
-                if (this.Includes(Unclear[i])) return await this.Content_Includes(this.Unclear)
+                if (this.#Includes(Unclear[i])) return await this.#Content_Includes(this.Unclear)
             }
         }
 
-        return this.Character_Send(Random_Response)
+        return this.#Character_Send(Random_Response)
     }
 
     /**
@@ -497,13 +499,13 @@ class Character {
      * @param {String[]} Responses 
      * @returns {String}
      */
-    Get_Is(Keywords, Responses) {
+    #Get_Is(Keywords, Responses) {
         // console.log(Responses)
 
         for (let i = 0; i < Keywords.length; i++) {
-            // console.log(Keywords[i], this.Content_Is(Keywords[i]))
+            // console.log(Keywords[i], this.#Content_Is(Keywords[i]))
 
-            if (this.Content_Is(Keywords[i])) {
+            if (this.#Content_Is(Keywords[i])) {
                 // console.log('Is Equals.')
 
                 const Response = Simple.randomElement(Responses)
@@ -518,11 +520,11 @@ class Character {
      * @param {String[]} Responses 
      * @returns {String}
      */
-    Get_Includes(Keywords, Responses) {
+    #Get_Includes(Keywords, Responses) {
         for (let i = 0; i < Keywords.length; i++) {
-            // console.log(Keywords[i], this.Includes(Keywords[i]))
+            // console.log(Keywords[i], this.#Includes(Keywords[i]))
 
-            if (this.Includes(Keywords[i])) {
+            if (this.#Includes(Keywords[i])) {
                 // console.log('Includes.')
                 
                 const Response = Simple.randomElement(Responses)
@@ -538,7 +540,7 @@ class Character {
      * @param {*} Channel Discord Channel
      * @returns {Promise} Discord Webhook
      */
-    async Create(Name, Avatar, Channel) {
+    async #Create(Name, Avatar, Channel) {
         return await Channel.createWebhook(Name, {
             avatar: Avatar
         })
@@ -549,7 +551,7 @@ class Character {
      * @param {String[]} Responses 
      * @returns {Boolean}
      */
-    Has_Response(Responses) {
+    #Has_Response(Responses) {
         if (Responses !== undefined) return true ; return false
     }
 
@@ -560,29 +562,29 @@ class Character {
      * @param {String} Path 
      * @returns {*} Discord Channel
      */
-    Get_Channel(Path) {
-        const Characters_Guilds = Open(Path)
+    async #Get_Channel(Path) {
+        const Guilds = Open(Path)
     
-        const Characters_Channel = Characters_Guilds.find(Character => {
+        const Channel = Guilds.find(Character => {
             return Character.Guild_ID === parseInt(this.Activator.guild.id) &&
             Character.Channel_ID === parseInt(this.Activator.channel.id)
         })
         
-        this.Channel_ID =
-        !Characters_Channel ?
+        this.#Channel_ID =
+        !Channel ?
             undefined
         :
-            Characters_Channel.Channel_ID || Characters_Channel.Channel_ID
+            await Channel.Channel_ID
         
-        return Characters_Channel
+        return Channel
     }
     /**
      * Gets the webhook of the channel.
      * @returns {*} Discord Webhook
      */
-    async Get_Webhook() { // ~ 10/3/21; October 3, 2021
+    async #Get_Webhook() { // ~ 10/3/21; October 3, 2021
         const Channel = this.Activator.guild.channels.cache.find(Channel => {
-            return parseInt(Channel.id) === this.Channel_ID
+            return parseInt(Channel.id) === this.#Channel_ID
         })
         // console.log(Channel)
 
@@ -595,19 +597,19 @@ class Character {
     /**
      * Saves or Sets the Channel property as an Object or undefined.
      */
-    Save_Channel() {
-        const Channel = this.Get_Channel(this.Path)
-        this.Channel = Channel
+    async #Save_Channel() {
+        const Channel = await this.#Get_Channel(this.Path)
+        this.#Channel = Channel
     }
     /**
      * Saves or Sets the Webhook & Webhook_Channel property as an Object or undefined.
      */
-    async Save_Webhook() {
-        const { Channel, Webhook } = await this.Get_Webhook()
+    async #Save_Webhook() {
+        const { Channel, Webhook } = await this.#Get_Webhook()
         if (!Channel && !Webhook) return;
 
-        this.Webhook_Channel = Channel
-        this.Webhook = Webhook
+        this.#Webhook_Channel = Channel
+        this.#Webhook = Webhook
 
         return true
     }
@@ -622,8 +624,8 @@ class Character {
      */
     Set(Event, Responses) { // ~ 11/9/21; November 9, 2021
         if (!Event) return;
-        if (!Responses) throw new ReferenceError(this.Not)
-        if (!(Responses instanceof Array)) throw new TypeError(this.Has)
+        if (!Responses) throw new ReferenceError(this.#Not)
+        if (!(Responses instanceof Array)) throw new TypeError(this.#Has)
 
         Event = Event.toLowerCase()
         const Events = this.Get_Events(true)
@@ -676,9 +678,9 @@ class Character {
      * @param {Number} Type
      */
     Add(Keywords, Responses, Type) {
-        if (!Keywords || !Responses || !Type) throw new ReferenceError(this.Not)
+        if (!Keywords || !Responses || !Type) throw new ReferenceError(this.#Not)
         if (!(Keywords instanceof Array)) throw new TypeError('"Keywords" has to be an Array of String(s)')
-        if (!(Responses instanceof Array)) throw new TypeError(this.Has)
+        if (!(Responses instanceof Array)) throw new TypeError(this.#Has)
         if (isNaN(Type)) throw new TypeError('"Type" has to be a number.')
         if (Type > 2 || Type < 1) throw new ReferenceError('There are only 2 Types of responses.')
 
@@ -686,8 +688,8 @@ class Character {
             Keywords: Keywords,
             Responses: Responses
         }
-        if (Type === 1) Add(this.Type_1, Response)
-        if (Type === 2) Add(this.Type_2, Response)
+        if (Type === 1) Add(this.#Type_1, Response)
+        if (Type === 2) Add(this.#Type_2, Response)
 
         function Add(Array, Object) { Array.push(Object) }
     }
@@ -696,7 +698,7 @@ class Character {
      * Returns all of the added responses.
      */
     get Responses() {
-        return { Type_1: this.Type_1, Type_2: this.Type_2 }
+        return { Type_1: this.#Type_1, Type_2: this.#Type_2 }
     }
 
     /**
@@ -704,8 +706,8 @@ class Character {
      * @param {String} Message 
      * @returns {void}
      */
-    async Character_Send(Message) { // ~ 10/3/21; October 3, 2021
-        const Mitch = this.Webhook
+    async #Character_Send(Message) { // ~ 10/3/21; October 3, 2021
+        const Mitch = this.#Webhook
         // console.log(Mitch)
 
         Mitch.send({ content: Message, username: this.Name, avatarURL: this.Avatar })
@@ -716,8 +718,10 @@ class Character {
      * @param {String} String 
      * @returns {Boolean}
      */
-    Includes(String) {
-        if (this.Activator.content.toLowerCase().includes(String.toLowerCase())) return true
+    #Includes(String) {
+        if (this.Activator.content.toLowerCase().includes(
+            String.toLowerCase())
+        ) return true
         return false
     }
     /**
@@ -725,7 +729,7 @@ class Character {
      * @param {Array} Array 
      * @returns {Element}
      */
-    Random(Array) {
+    #Random(Array) {
         return Simple.randomElement(Array)
     }
     /**
@@ -734,9 +738,9 @@ class Character {
      * @param {String | Array} Message 
      * @returns {String | Array}
      */
-    The_Message(Message) {
+    #The_Message(Message) {
         if (Message instanceof Array) {
-            Message = this.Random(Message)
+            Message = this.#Random(Message)
             return Message
         }
         return Message
@@ -747,7 +751,7 @@ class Character {
      * @param {String} String 
      * @returns {Boolean}
      */
-    Content_Is(String) {
+    #Content_Is(String) {
         if (this.Activator.content.toLowerCase() === String.toLowerCase()) return true
         return false
     }
@@ -755,9 +759,9 @@ class Character {
      * @param {String} Message
      * @returns {void}
      */
-    async Content_Includes(Message) {
-        Message = this.The_Message(Message)
-        await this.Character_Send(Message)
+    async #Content_Includes(Message) {
+        Message = this.#The_Message(Message)
+        await this.#Character_Send(Message)
     }
 }
 
