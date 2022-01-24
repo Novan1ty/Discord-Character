@@ -1,7 +1,7 @@
 {
     "name": "discord-character",
-    "version": "1.2.18",
-    "description": "discord-character is a basic project that allows you to create your own chatbots for Discord.",
+    "version": "2.0.2",
+    "description": "discord-character ultimately allows one to create their own chatbots for Discord.",
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"

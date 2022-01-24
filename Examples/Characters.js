@@ -5,10 +5,13 @@ const { Character, Open } = require('discord-character')
 const Res = Open('./Path/To/Res.json')
 // console.log(Res)
 
-// C = Character
-// Res_C = Response Character (e.g. Res['NAME'])
-// C_Key = Character's Custom Res. Key (e.g. Res['NAME']['WAFFLE'])
-// Example: Add(Rune, 'Rune', 'Mitch', 2)
+/*
+C = Character
+Res_C = Response Character (e.g. Res['Mitch'])
+C_Key = Character's Custom Res. Key (e.g. Res['Mitch']['Waffle'])
+
+Example: Add(Rune, 'Rune', 'Mitch', 2)
+*/
 
 const Get_Keys = (Character, Key) => {
     return Res[Character][Key].Keys
@@ -21,16 +24,21 @@ const Add = (C, Res_C, C_Key, Type) => {
 }
 
 function Rune(Client, Message) {
-    const Name = 'Rune'
     const Avatar = 'https://cdn.discordapp.com/avatars/781224758355820555/de3ad39b494018d9e42336610d7691ef.jpg?size=4096'
     
     // Character ~ 10/4/21; October 4, 2021
 
     const Rune = new Character({
-        Client: Client,
-        Activator: Message,
-        Name: Name, Avatar: Avatar,
-        Path: './Path/To/Rune.json'
+        Client: Client, Activator: Message,
+        Name: 'Rune', Avatar: Avatar,
+        Guilds: [
+            {
+                Guild_ID: 'GUILD_ID: Number',
+                Channel_ID: 'CHANNEL_ID: Number',
+                Name: 'CHANNEL_NAME'
+            }
+        ]
+        // Guilds: Open('./Storages/Rune.json')
     })
 
     Rune.Set('Default', Res.Rune.Default)
@@ -43,9 +51,16 @@ function Rune(Client, Message) {
 function Mitch(Client, Message) {
     const Avatar = 'https://i.imgur.com/e50teWs.jpg'
     const Mitch = new Character({
-        Client: Client, Activator: Message,
+        Client: Client,
+        Activator: Message,
         Name: 'Mitch', Avatar: Avatar,
-        Path: './Path/To/Mitch.json'
+        Guilds: [
+            {
+                Guild_ID: 'Guild_ID',
+                Channel_ID: 'Channel_ID',
+                Name: 'CHANNEL_ID'
+            }
+        ]
     })
 
     Mitch.Set('Default', Res.Mitch.Default)

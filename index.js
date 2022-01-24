@@ -13,25 +13,23 @@ Finished on: 10/3/21; October 3, 2021
  * An already set up Character Class.
  */
 class Character {
-    #Type_1 ; #Type_2 ; #Not ; #Has ; #Channel_ID ;
-    #Webhook_Channel ; #Webhook ; #Channel
+    #Type_1 ; #Type_2 ; #Not ; #Has ;
+    #Webhook_Channel ; #Webhook
 
     /**
-     * The Constructor for Character_Set.
-     * 
-     * You cannot add custom responses into this Character Class.
-     * @param {*} Client Discord Client
-     * @param {*} Activator Discord Message
-     * @param {String} Name
-     * @param {String | URL} Avatar
-     * @param {String} Path
+     * @param {Object} Options
+     * @param {*} Options.Client Discord Client
+     * @param {*} Options.Activator Discord Message
+     * @param {String} Options.Name
+     * @param {String | URL} Options.Avatar
+     * @param {object[]} Options.Guilds
      */
-    constructor({ Client, Activator, Name, Avatar, Path }) {
+    constructor({ Client, Activator, Name, Avatar, Guilds }) {
         this.Client = Client
         this.Activator = Activator
         this.Name = Name
         this.Avatar = Avatar
-        this.Path = Path
+        this.Guilds = Guilds
 
         this.#Type_1 = []
         this.#Type_2 = []
@@ -45,19 +43,18 @@ class Character {
      * @returns {void}
      */
     async Chat() {
-        const message = this.Activator
+        // const Start = new Date().getTime()
+
         await this.#Save_Channel()
 
-        const Channel = this.#Channel
-        if (!Channel) return;
-
-        // console.log(Channel.#Channel_ID) ~ 10/3/21; October 3, 2021
+        const message = this.Activator
+        if (parseInt(message.channel.id) !== this.Channel_ID) return;
 
         await this.#Save_Webhook()
         const Character = this.#Webhook
 
-        const Character_Responses = this.Default
-        const Random_Response = this.#Random(Character_Responses)
+        const Default = this.Default
+        const Random_Response = this.#Random(Default)
 
         const Name = this.Name
         const Avatar = this.Avatar
@@ -77,9 +74,13 @@ class Character {
             return this.#Character_Send(Attachment_Response)
         }
 
+        // const End = new Date().getTime()
+        // console.log(Math.round((End - Start)) + 'ms')
+
         // Content Is ~ 10/4/21; October 4, 2021
         
-        for (let i = 0; i < this.#Type_1.length; i++) {
+        const Length_1 = this.#Type_1.length
+        for (let i = 0; i < Length_1; i++) {
             const { Keywords, Responses } = this.#Type_1[i]
 
             const Response = this.#Get_Is(Keywords, Responses)
@@ -90,7 +91,8 @@ class Character {
 
         // Content Includes ~ 10/4/21; October 4, 2021
 
-        for (let i = 0; i < this.#Type_2.length; i++) {
+        const Length_2 = this.#Type_2.length
+        for (let i = 0; i < Length_2; i++) {
             const { Keywords, Responses } = this.#Type_2[i]
 
             const Response = this.#Get_Includes(Keywords, Responses)
@@ -502,7 +504,8 @@ class Character {
     #Get_Is(Keywords, Responses) {
         // console.log(Responses)
 
-        for (let i = 0; i < Keywords.length; i++) {
+        const Length = Keywords.length
+        for (let i = 0; i < Length; i++) {
             // console.log(Keywords[i], this.#Content_Is(Keywords[i]))
 
             if (this.#Content_Is(Keywords[i])) {
@@ -521,7 +524,8 @@ class Character {
      * @returns {String}
      */
     #Get_Includes(Keywords, Responses) {
-        for (let i = 0; i < Keywords.length; i++) {
+        const Length = Keywords.length
+        for (let i = 0; i < Length; i++) {
             // console.log(Keywords[i], this.#Includes(Keywords[i]))
 
             if (this.#Includes(Keywords[i])) {
@@ -556,37 +560,17 @@ class Character {
     }
 
     /**
-     * Sets the channel id of the character, then
-     * returns the channel that is set for the
-     * character.
-     * @param {String} Path 
-     * @returns {*} Discord Channel
-     */
-    async #Get_Channel(Path) {
-        const Guilds = Open(Path)
-    
-        const Channel = Guilds.find(Character => {
-            return Character.Guild_ID === parseInt(this.Activator.guild.id) &&
-            Character.Channel_ID === parseInt(this.Activator.channel.id)
-        })
-        
-        this.#Channel_ID =
-        !Channel ?
-            undefined
-        :
-            await Channel.Channel_ID
-        
-        return Channel
-    }
-    /**
      * Gets the webhook of the channel.
      * @returns {*} Discord Webhook
      */
     async #Get_Webhook() { // ~ 10/3/21; October 3, 2021
-        const Channel = this.Activator.guild.channels.cache.find(Channel => {
-            return parseInt(Channel.id) === this.#Channel_ID
+        const Channel_ID = this.Channel_ID
+        const Channel = this.Activator.guild.channels.cache.find(C => {
+            return +C.id === Channel_ID
         })
         // console.log(Channel)
+
+        if (!Channel) return;
 
         let Character = await Channel.fetchWebhooks()
         Character = await Character.first()
@@ -594,24 +578,31 @@ class Character {
         return { Channel: Channel, Webhook: Character }
     }
 
-    /**
-     * Saves or Sets the Channel property as an Object or undefined.
-     */
     async #Save_Channel() {
-        const Channel = await this.#Get_Channel(this.Path)
-        this.#Channel = Channel
+        const message = this.Activator
+        const Guild_ID = +message.guild.id
+        const Channel_ID = +message.channel.id
+
+        const Channel = this.Guilds?.find(C => {
+            return C.Guild_ID === Guild_ID &&
+            C.Channel_ID === Channel_ID
+        })
+        
+        return this.Channel_ID =
+        !Channel ?
+            undefined
+        :
+            await Channel.Channel_ID
     }
-    /**
-     * Saves or Sets the Webhook & Webhook_Channel property as an Object or undefined.
-     */
     async #Save_Webhook() {
-        const { Channel, Webhook } = await this.#Get_Webhook()
+        const Fetched = await this.#Get_Webhook()
+        if (!Fetched) return;
+
+        const { Channel, Webhook } = Fetched
         if (!Channel && !Webhook) return;
 
         this.#Webhook_Channel = Channel
         this.#Webhook = Webhook
-
-        return true
     }
 
     // Set
@@ -630,7 +621,8 @@ class Character {
         Event = Event.toLowerCase()
         const Events = this.Get_Events(true)
 
-        for (let i = 0; i < Events.length; i++) {
+        const Length = Events.length
+        for (let i = 0; i < Length; i++) {
             if (Event === Events[i]) {
                 // console.log(Event)
 
@@ -684,14 +676,14 @@ class Character {
         if (isNaN(Type)) throw new TypeError('"Type" has to be a number.')
         if (Type > 2 || Type < 1) throw new ReferenceError('There are only 2 Types of responses.')
 
+        const Add = (Array, Object) => { Array.push(Object) }
+        
         const Response = {
             Keywords: Keywords,
             Responses: Responses
         }
         if (Type === 1) Add(this.#Type_1, Response)
         if (Type === 2) Add(this.#Type_2, Response)
-
-        function Add(Array, Object) { Array.push(Object) }
     }
 
     /**
