@@ -9,7 +9,7 @@
 
 ## Features
 - Easy-to-use
-- Beginner-Friendly
+- Beginner-friendly
 - Discord Webhooks
 
 - - -
